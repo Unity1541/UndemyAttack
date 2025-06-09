@@ -23,6 +23,13 @@ public class PlayerTargetingState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
+        if(stateMachine.inputReader.isAttacking)
+        {
+            //如果玩家正在攻擊，就切換到攻擊狀態
+            Debug.Log("玩家正在攻擊，切換到攻擊狀態");
+            stateMachine.SwitchState(new PlayerAttackState(stateMachine,0));
+            return;
+        }
         Debug.Log($"鎖定目標: {stateMachine.targeter.currentTargeter?.name ?? "無目標"}");
         //每秒檢查有沒有目標，沒有的話，回復到freeLook狀態
         if (stateMachine.targeter.currentTargeter == null)

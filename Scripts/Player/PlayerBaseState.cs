@@ -18,6 +18,10 @@ public abstract class PlayerBaseState : State
     //如果你要讓最上層的State也能知道 stateMachine，
     // 你就得在PlayerBaseState 的 : base(...) 呼叫中傳遞過去。 
 
+    protected void Move(float deltaTime)
+    { 
+        MovmentWithGravity(Vector3.zero, deltaTime);
+    }
     protected void MovmentWithGravity(Vector3 movement, float deltaTime)//讓人物移動同時考慮重力
     {
         //這個方法是用來處理角色的移動和重力

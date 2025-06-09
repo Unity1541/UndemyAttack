@@ -8,6 +8,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
  //這個類別是用來讀取玩家的輸入，所以有繼承的必須要實作，類似UnityEvent的On...方法
 
 
+    public bool isAttacking { get; private set; } //用來儲存玩家是否正在攻擊的狀態
     public Vector2 movementInput { get; private set; } //用來儲存玩家的移動輸入;
     private Controls controls; //Controls是自動生成的InputAction類別
     public event Action jumpEvent; //定義一個事件，當玩家跳躍時觸發
@@ -103,6 +104,19 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
         {
             cancelEvent?.Invoke(); //觸發CancelEvent事件，如果有訂閱的話
             Debug.Log("Cancel action performed");
+        }
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        //當玩家按下攻擊鍵時，這個方法會被呼叫
+        if (context.performed)
+        {
+            isAttacking = true; //設定isAttacking為true，表示玩家正在攻擊
+        }
+        else if (context.canceled)
+        {
+            isAttacking = false; //當玩家鬆開攻擊鍵時，設定isAttacking為false
         }
     }
     

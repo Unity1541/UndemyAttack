@@ -35,9 +35,15 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
-        Vector2 input = stateMachine.inputReader.movementInput;
+        if(stateMachine.inputReader.isAttacking)
+        {
+            //如果玩家正在攻擊，就切換到攻擊狀態
+            Debug.Log("玩家正在攻擊，切換到攻擊狀態");
+            stateMachine.SwitchState(new PlayerAttackState(stateMachine,0));
+            return;
+        }
 
-        // Early exit for no input
+        Vector2 input = stateMachine.inputReader.movementInput;
         if (input == Vector2.zero)
         {
             stateMachine.animator.SetFloat(FreeLookSpeedHash, 0f,smoothDamp, deltaTime);
