@@ -23,6 +23,13 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public float freeMoveSpeed { get; private set; }
 
     [field: SerializeField] public Targeter targeter { get; private set; }
+<<<<<<< Updated upstream
+=======
+    [field: SerializeField] public ForceReceiver forceReceiver{ get; private set; }
+    [field: SerializeField] public float movementWithTargetSpeed { get; private set; }
+    [field: SerializeField] public Attack[] attacks { get; private set; }
+
+>>>>>>> Stashed changes
     public Transform mainCameraTransform { get; private set; }
     void Start()
     {
