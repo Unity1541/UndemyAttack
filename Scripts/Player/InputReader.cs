@@ -16,8 +16,11 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
                                    //使用 UnityEvent 來綁定跳躍事件，這樣可以在 Inspector 中設定
                                    // 拖曳任意 public method 來綁定
                                    // 被設計來讓不懂程式的設計師也能使用事件機制
-    public event Action DodgeEvent; //定義一個事件，當玩家閃避時觸發
+    public event Action dodgeEvent; //定義一個事件，當玩家閃避時觸發
                                     //同樣只能透過程式碼訂閱/取消訂閱，不會顯示在 Inspector 中
+
+    public event Action targetEvent;
+    public event Action cancelEvent;
 
     private void Awake()
     {
@@ -62,7 +65,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
         //當玩家按下閃避鍵時，這個方法會被呼叫
         if (context.performed)
         {
-            DodgeEvent?.Invoke(); //觸發DodgeEvent事件，如果有訂閱的話
+            dodgeEvent?.Invoke(); //觸發DodgeEvent事件，如果有訂閱的話
             Debug.Log("Dodge action performed");
             //在這裡可以加入閃避的邏輯
         }
@@ -81,8 +84,26 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     }
     #endregion
 
-    public void OnLook(InputAction.CallbackContext context)
+    public void OnLook(InputAction.CallbackContext context) { } //cinemachine會幫忙自動帶入，這邊不用再讀取value
+
+    public void OnTarget(InputAction.CallbackContext context)
     {
-        //cinemachine會幫忙自動帶入，這邊不用再讀取value
+        //當玩家按下目標鍵時，這個方法會被呼叫
+        if (context.performed)
+        {
+            targetEvent?.Invoke(); //觸發TargetEvent事件，如果有訂閱的話
+            Debug.Log("Target action performed");
+        }
     }
+
+    public void OnCancel(InputAction.CallbackContext context)
+    {
+        //當玩家按下取消鍵時，這個方法會被呼叫
+        if (context.performed)
+        {
+            cancelEvent?.Invoke(); //觸發CancelEvent事件，如果有訂閱的話
+            Debug.Log("Cancel action performed");
+        }
+    }
+    
 }

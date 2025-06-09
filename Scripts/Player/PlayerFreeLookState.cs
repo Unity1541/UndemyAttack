@@ -11,6 +11,7 @@ public class PlayerFreeLookState : PlayerBaseState
     //Animator 在執行時，其實是透過編號（int）來存取動畫參數，因此改用把字串變成整數，傳遞比較快
     //這個變數是用來存儲動畫參數的哈希值，這樣可以提高性能，因為使用哈希值比使用字串更快
     //而且打錯字串也沒差，不會影響傳遞
+    private readonly int FreeLookBlenderTreeHash = Animator.StringToHash("Movement");
     private const float smoothDamp = 0.13f;
     public PlayerFreeLookState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
@@ -26,7 +27,10 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void OnEnter()
     {
-        Debug.Log("Entering PlayerTestState");
+
+        stateMachine.inputReader.targetEvent += OnTargetEnter;
+        Debug.Log("Entering PlayerFreeLookState");
+        stateMachine.animator.Play(FreeLookBlenderTreeHash);
     }
 
     public override void Tick(float deltaTime)
@@ -42,9 +46,11 @@ public class PlayerFreeLookState : PlayerBaseState
 
         // Get camera-relative movement direction
         Vector3 moveDirection = CalculateCameraRelativeMovement(input);
-        
+
+        // Apply gravity to the movement direction
+        MovmentWithGravity(moveDirection * stateMachine.freeMoveSpeed, deltaTime);
         // Move character
-        stateMachine.characterController.Move(moveDirection * stateMachine.freeMoveSpeed * deltaTime);
+        //移除未考慮重力stateMachine.characterController.Move(moveDirection * stateMachine.freeMoveSpeed * deltaTime);
 
         // Update animation
         stateMachine.animator.SetFloat(FreeLookSpeedHash, stateMachine.freeMoveSpeed, smoothDamp, deltaTime);
@@ -63,12 +69,30 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void OnExit()
     {
+        stateMachine.inputReader.targetEvent -= OnTargetEnter;
         Debug.Log("Exiting PlayerTestState");
 
     }
+    
+    private void OnTargetEnter()
+    {
+        if (!stateMachine.targeter.SelectTarget())
+        {
+            Debug.Log("沒有東西，不可以進入鎖定模式");//仍然可以自由選轉
+            return;
+        }
+        // Switch to targeting state when target is selected
+        stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
+    }
+
+    private void OnTargetExit()
+    {
+        // Switch back to free look state when target is deselected
+        stateMachine.SwitchState(new PlayerFreeLookState(stateMachine));
+    }
 
     private void HandleRotation(Vector3 moveDirection, float deltaTime)
-    { 
+    {
         if (moveDirection.sqrMagnitude > 0.001f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);

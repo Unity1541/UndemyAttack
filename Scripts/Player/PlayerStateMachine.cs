@@ -6,7 +6,7 @@ public class PlayerStateMachine : StateMachine
 {
     //Because StateMachine is a monoBehaviour, 
     //therefore this class is also a monoBehaviour with inheritance.
-    //PlayerState只是負責轉換更新場景的腳色狀態
+    //PlayerStateMachine只是負責轉換更新場景的腳色狀態
 
     PlayerFreeLookState playerFreeLookState;
     [field:SerializeField]public InputReader inputReader { get; private set; }
@@ -21,6 +21,11 @@ public class PlayerStateMachine : StateMachine
     [field:SerializeField]public CharacterController characterController { get; private set; }
     [field:SerializeField]public Animator animator { get; private set; }
     [field: SerializeField] public float freeMoveSpeed { get; private set; }
+
+    [field: SerializeField] public Targeter targeter { get; private set; }
+    [field: SerializeField] public ForceReceiver forceReceiver{ get; private set; }
+    [field: SerializeField] public float movementWithTargetSpeed { get; private set; }
+
     public Transform mainCameraTransform { get; private set; }
     void Start()
     {
