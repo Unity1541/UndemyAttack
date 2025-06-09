@@ -26,7 +26,9 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void OnEnter()
     {
-        Debug.Log("Entering PlayerTestState");
+
+        stateMachine.inputReader.targetEvent += OnTargetEnter;
+        Debug.Log("Entering PlayerFreeLookState");
     }
 
     public override void Tick(float deltaTime)
@@ -63,12 +65,30 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void OnExit()
     {
+        stateMachine.inputReader.targetEvent -= OnTargetEnter;
         Debug.Log("Exiting PlayerTestState");
 
     }
+    
+    private void OnTargetEnter()
+    {
+        if (!stateMachine.targeter.SelectTarget())
+        {
+            Debug.Log("沒有東西，不可以進入鎖定模式");//仍然可以自由選轉
+            return;
+        }
+        // Switch to targeting state when target is selected
+        stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
+    }
+
+    private void OnTargetExit()
+    {
+        // Switch back to free look state when target is deselected
+        stateMachine.SwitchState(new PlayerFreeLookState(stateMachine));
+    }
 
     private void HandleRotation(Vector3 moveDirection, float deltaTime)
-    { 
+    {
         if (moveDirection.sqrMagnitude > 0.001f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
