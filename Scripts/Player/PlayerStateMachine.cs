@@ -21,7 +21,7 @@ public class PlayerStateMachine : StateMachine
     [field:SerializeField]public CharacterController characterController { get; private set; }
     [field:SerializeField]public Animator animator { get; private set; }
     [field: SerializeField] public float freeMoveSpeed { get; private set; }
-
+    [field: SerializeField] public WeaponDamage weaponDamage { get; private set; }
     [field: SerializeField] public Targeter targeter { get; private set; }
     [field: SerializeField] public ForceReceiver forceReceiver{ get; private set; }
     [field: SerializeField] public float movementWithTargetSpeed { get; private set; }

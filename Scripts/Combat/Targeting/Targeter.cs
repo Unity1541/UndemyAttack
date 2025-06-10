@@ -5,7 +5,8 @@ using Cinemachine;
 
 public class Targeter : MonoBehaviour
 {
-    [SerializeField] private CinemachineTargetGroup cinemachineTargetGroup;//因為要自動加入鎖定的目標給TargetGroup相機，所以要先取得控制權
+    [SerializeField] private CinemachineTargetGroup cinemachineTargetGroup;
+    //因為要自動加入鎖定的目標給TargetGroup相機，所以要先取得控制權
     //要加上Rigidbody才可以有Trigger的Enter or Exit效果，→所以把Rigidbody mass = 0
     public List<Target> targets = new List<Target>();
     //這個類別是用來儲存目標的列表，並且可以在場景中使用
@@ -65,8 +66,8 @@ public class Targeter : MonoBehaviour
     public bool SelectTarget()
     {
 
-        if (targets.Count == 0){ return false;}
-            //如果沒有目標，則返回false   
+        if (targets.Count == 0) { return false; }
+        //如果沒有目標，則返回false   
         Target closestTargeter = null;
         float closestDistance = Mathf.Infinity;
         //不可以直接使用0，因為這樣會導致計算錯誤
@@ -82,7 +83,7 @@ public class Targeter : MonoBehaviour
 
             Vector2 poCenter = viewPo - new Vector2(0.5f, 0.5f);
             //計算目標在相機視野中的位置，相對於視野中心點(0.5, 0.5)
-            if(poCenter.sqrMagnitude < closestDistance)
+            if (poCenter.sqrMagnitude < closestDistance)
             {
                 //如果目標距離視野中心點的平方距離小於目前最近的距離
                 closestDistance = poCenter.sqrMagnitude;
@@ -90,12 +91,12 @@ public class Targeter : MonoBehaviour
                 //更新最近的目標和距離
             }
         }
-            if (closestTargeter == null){ return false; }//如果沒有找到最近的目標，則返回false
-            currentTargeter = closestTargeter;
-            cinemachineTargetGroup.AddMember(currentTargeter.transform, 1f, 0.5f);//1表示weight，0.5表示radius
-            //將第一個目標加入CinemachineTargetGroup，這樣相機就會鎖定到這個目標
-            return true;
-        
+        if (closestTargeter == null) { return false; }//如果沒有找到最近的目標，則返回false
+        currentTargeter = closestTargeter;
+        cinemachineTargetGroup.AddMember(currentTargeter.transform, 1f, 0.5f);//1表示weight，0.5表示radius
+                                                                              //將第一個目標加入CinemachineTargetGroup，這樣相機就會鎖定到這個目標
+        return true;
+
     }
 
     public void CancelTarget()
@@ -113,13 +114,14 @@ public class Targeter : MonoBehaviour
 
     public void RemoveTargetOnDestroyed(Target target)
     {
-       
+
         if (currentTargeter == target)//假設被摧毀的目標物是當前追蹤的對象時候，那麼cinemachineTargetGroup也要移除這個目標
         {
             cinemachineTargetGroup.RemoveMember(target.transform);
             currentTargeter = null; //清空當前選中的目標
         }
         target.OnDestroyed -= RemoveTargetOnDestroyed;
-       
     }
+// 當目標被銷毀時：透過 Target 的 OnDestroyed 事件，自動調用 RemoveTargetOnDestroyed，以從 targets 列表中移除目標，並更新 CinemachineTargetGroup 和 currentTargeter。
+// 當目標離開觸發器範圍時：透過 OnTriggerExit，手動調用 RemoveTargetOnDestroyed，以確保目標從 targets 列表和相機追蹤中移除。
 }

@@ -26,7 +26,7 @@ public abstract class PlayerBaseState : State
     {
         //這個方法是用來處理角色的移動和重力
         //這樣就可以在子類別中使用了
-        stateMachine.characterController.Move((movement + stateMachine.forceReceiver.movmmentY) * deltaTime);
+        stateMachine.characterController.Move((movement + stateMachine.forceReceiver.movementWithForce) * deltaTime);
         //這裡的movement是指角色的移動速度，deltaTime是指每幀的時間
         //這樣就可以讓角色在每幀都能夠移動
     }

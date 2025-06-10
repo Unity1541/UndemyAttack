@@ -30,7 +30,7 @@ public class PlayerFreeLookState : PlayerBaseState
 
         stateMachine.inputReader.targetEvent += OnTargetEnter;
         Debug.Log("Entering PlayerFreeLookState");
-        stateMachine.animator.Play(FreeLookBlenderTreeHash);
+        stateMachine.animator.CrossFadeInFixedTime(FreeLookBlenderTreeHash,0.5f);
     }
 
     public override void Tick(float deltaTime)

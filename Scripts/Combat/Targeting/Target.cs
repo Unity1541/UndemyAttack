@@ -31,17 +31,14 @@ public class Target : MonoBehaviour
     // }
     #endregion
     public event Action <Target> OnDestroyed;
-    void OnDestroy()
+    void OnDestroy()//只是預防自己被摧毀時候調用開方法，給Targeter使用，不見得會用到
     {
-        //當目標被摧毀時，觸發事件
+        //主要是為了預防性地處理 Target 物件被銷毀（例如敵人被擊敗、場景切換等）的情況，確保通知 Targeter（或其他訂閱者）來執行清理邏輯，例如從 targets 列表中移除該目標或更新相機追蹤狀態。
+        //這種設計是一種防範措施，確保系統在動態場景中保持一致性，但並不一定在每次遊戲運行中都會觸發（例如，如果目標從未被銷毀，這個邏輯就不會執行）。
         OnDestroyed?.Invoke(this);
         //這樣就可以在其他地方訂閱這個事件，當目標被摧毀時，執行相應的邏輯
         //例如：從Targeter的targets列表中移除這個目標
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

@@ -18,7 +18,7 @@ public class PlayerTargetingState : PlayerBaseState
     {
         Debug.Log("Entering 鎖定模式");
         stateMachine.inputReader.cancelEvent += OnCancelTarget;
-        stateMachine.animator.Play(TargetBlenderTreeHash);
+        stateMachine.animator.CrossFadeInFixedTime(TargetBlenderTreeHash,0.5f);
     }
 
     public override void Tick(float deltaTime)
@@ -30,7 +30,7 @@ public class PlayerTargetingState : PlayerBaseState
             stateMachine.SwitchState(new PlayerAttackState(stateMachine,0));
             return;
         }
-        Debug.Log($"鎖定目標: {stateMachine.targeter.currentTargeter?.name ?? "無目標"}");
+        //Debug.Log($"鎖定目標: {stateMachine.targeter.currentTargeter?.name ?? "無目標"}");
         //每秒檢查有沒有目標，沒有的話，回復到freeLook狀態
         if (stateMachine.targeter.currentTargeter == null)
         {
