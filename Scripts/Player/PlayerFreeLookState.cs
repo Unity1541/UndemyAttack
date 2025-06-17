@@ -28,16 +28,18 @@ public class PlayerFreeLookState : PlayerBaseState
     public override void OnEnter()
     {
 
+        stateMachine.IsInteract = stateMachine.animator.GetBool("IsInteract");
         stateMachine.inputReader.targetEvent += OnTargetEnter;
         Debug.Log("Entering PlayerFreeLookState");
-        stateMachine.animator.CrossFadeInFixedTime(FreeLookBlenderTreeHash,0.5f);
+        stateMachine.animator.CrossFadeInFixedTime(FreeLookBlenderTreeHash,0.3f);
     }
 
     public override void Tick(float deltaTime)
     {
         if(stateMachine.inputReader.isAttacking)
         {
-            //如果玩家正在攻擊，就切換到攻擊狀態
+            stateMachine.IsInteract = true;
+            //如果玩家正在攻擊，就切換到攻擊狀態,這邊的參數0表示，第一招攻擊
             Debug.Log("玩家正在攻擊，切換到攻擊狀態");
             stateMachine.SwitchState(new PlayerAttackState(stateMachine,0));
             return;
@@ -99,7 +101,7 @@ public class PlayerFreeLookState : PlayerBaseState
 
     private void HandleRotation(Vector3 moveDirection, float deltaTime)
     {
-        if (moveDirection.sqrMagnitude > 0.001f)
+        if (moveDirection.sqrMagnitude > 0.001f && !stateMachine.IsInteract)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             stateMachine.transform.rotation = Quaternion.Slerp(

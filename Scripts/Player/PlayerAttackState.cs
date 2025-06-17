@@ -24,6 +24,7 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void OnEnter()
     {
+        stateMachine.IsInteract = true;
         stateMachine.weaponDamage.SetAttack(attackData.damage);
         stateMachine.animator.CrossFadeInFixedTime(attackData.attackName, attackData.transitionDampTime);
     }
@@ -62,7 +63,7 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void OnExit()
     {
-        // 在這裡可以加入退出攻擊狀態時的邏輯
+        stateMachine.IsInteract = false;
         Debug.Log("Exiting Attack State");
 
     }

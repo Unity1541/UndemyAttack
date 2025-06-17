@@ -16,6 +16,7 @@ public class PlayerTargetingState : PlayerBaseState
 
     public override void OnEnter()
     {
+        
         Debug.Log("Entering 鎖定模式");
         stateMachine.inputReader.cancelEvent += OnCancelTarget;
         stateMachine.animator.CrossFadeInFixedTime(TargetBlenderTreeHash,0.5f);
