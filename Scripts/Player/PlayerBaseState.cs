@@ -19,7 +19,7 @@ public abstract class PlayerBaseState : State
     // 你就得在PlayerBaseState 的 : base(...) 呼叫中傳遞過去。 
 
     protected void Move(float deltaTime)
-    { 
+    {
         MovmentWithGravity(Vector3.zero, deltaTime);
     }
     protected void MovmentWithGravity(Vector3 movement, float deltaTime)//讓人物移動同時考慮重力
@@ -46,5 +46,18 @@ public abstract class PlayerBaseState : State
             //這樣就可以讓角色在鎖定目標時，平滑地面對目標
         }
 
+    }
+
+    protected void ReturnLocomotion()
+    {
+        if (stateMachine.targeter.currentTargeter != null)
+        {
+            stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
+
+        }
+        else
+        {
+            stateMachine.SwitchState(new PlayerFreeLookState(stateMachine));
+        }
     }
 }

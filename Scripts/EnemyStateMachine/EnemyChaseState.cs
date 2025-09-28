@@ -35,6 +35,7 @@ public class EnemyChaseState : EnemyBaseState
         MoveToPlayer(deltaTime);
         FacePlayer();
         enemyStateMachine.enemyAnimator.SetFloat(enemySpeedHash, 1f, animatorDampTime, deltaTime);
+        Debug.Log("在追逐狀態");
     }
 
     public override void OnExit()

@@ -18,6 +18,7 @@ public class EnemyIdleState : EnemyBaseState
     }
     public override void Tick(float deltaTime)
     {
+        enemyStateMachine.enemyAnimator.SetFloat(enemySpeedHash, 0.2f, animatorDampTime, deltaTime);
         Move(deltaTime);
         FacePlayer();
         if (isChangeRange())
@@ -27,7 +28,8 @@ public class EnemyIdleState : EnemyBaseState
             enemyStateMachine.SwitchState(new EnemyChaseState(enemyStateMachine));
             return;
         }
-        enemyStateMachine.enemyAnimator.SetFloat(enemySpeedHash, 0.1f, animatorDampTime, deltaTime);
+         Debug.Log("在閒置狀態");
+
     }
 
     public override void OnExit()
@@ -35,17 +37,5 @@ public class EnemyIdleState : EnemyBaseState
 
     }
 
-    // protected void Move(float deltaTime)
-    // { 
-    //     MovmentWithGravity(Vector3.zero, deltaTime);
-    // }
-    // protected void MovmentWithGravity(Vector3 movement, float deltaTime)//讓人物移動同時考慮重力
-    // {
-    //     //這個方法是用來處理角色的移動和重力
-    //     //這樣就可以在子類別中使用了
-    //     enemyStateMachine.characterController.Move((movement + enemyStateMachine.forceReceiver.movementWithForce) * deltaTime);
-    //     //這裡的movement是指角色的移動速度，deltaTime是指每幀的時間
-    //     //這樣就可以讓角色在每幀都能夠移動
-    // }
-
+   
 }

@@ -13,6 +13,7 @@ public class Attack
     [field: SerializeField] public float comboAttackTime { get; private set; } = -1; //攻擊持續時間
     [field: SerializeField] public float forceTime { get; private set; } = -1; //攻擊持續時間
     [field: SerializeField] public float force { get; private set; } = -1; //攻擊持續時間
+    [field: SerializeField] public float knockBack { get; private set; } = -1; //擊退力
     [field: SerializeField] public int damage { get; private set; } = -1;
 
 }

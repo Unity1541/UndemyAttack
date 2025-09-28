@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
     private int health;
 
+    public event Action OnTakeDamage;
     void Start()
     {
         health = maxHealth; // 初始化生命值為最大生命值
@@ -20,6 +22,7 @@ public class Health : MonoBehaviour
         }
 
         health = Mathf.Max(health - damage, 0); // 減少生命值，確保不會低於0
+        OnTakeDamage?.Invoke();
         Debug.Log($"{gameObject.name} took {damage} damage, remaining health: {health}");
         
     }

@@ -25,13 +25,13 @@ public class PlayerAttackState : PlayerBaseState
     public override void OnEnter()
     {
         stateMachine.IsInteract = true;
-        stateMachine.weaponDamage.SetAttack(attackData.damage);
+        stateMachine.weaponDamage.SetAttack(attackData.damage,attackData.knockBack);
         stateMachine.animator.CrossFadeInFixedTime(attackData.attackName, attackData.transitionDampTime);
     }
     public override void Tick(float deltaTime)
     {
         Move(deltaTime);
-        float normalizedTime = GetNormalizedTime();
+        float normalizedTime = GetNormalizedTime(stateMachine.animator);
 
         if (normalizedTime >= previousFrameTime && normalizedTime < 1)
         {
@@ -89,41 +89,5 @@ public class PlayerAttackState : PlayerBaseState
         alreadyAppliedForce = true;
     }
 
-    private float GetNormalizedTime()
-    {
-        //參數 1 表示檢查 Animator 的第二層 (Layer 1，因為索引從 0 開始)
-        //取得動畫的正規化時間
-        //Animator.IsInTransition,這是 Unity 的 Animator 組件提供的方法，用於檢查指定層級是否正在進行動畫轉換
-        AnimatorStateInfo currentInfo = stateMachine.animator.GetCurrentAnimatorStateInfo(1);//1表示第二層，此時在AttackLayer
-        AnimatorStateInfo nextInfo = stateMachine.animator.GetNextAnimatorStateInfo(1);//1表示第二層，此時在AttackLayer
-        //情況 1：正在切換到新的攻擊動畫
-        if (stateMachine.animator.IsInTransition(1) && nextInfo.IsTag("attackTag"))
-        {
-            // IsInTransition 檢查是否正在切換動畫
-            // IsTag("attackTag") 確認是攻擊相關的動畫
-            //如果正在轉換動畫，則返回下一個動畫的正規化時間
-            return nextInfo.normalizedTime;
-        }
-        //情況 2：當前在播放攻擊動畫
-        else if (!stateMachine.animator.IsInTransition(1) && currentInfo.IsTag("attackTag"))
-        {
-            //如果沒有轉換動畫，則返回當前動畫的正規化時間
-            return currentInfo.normalizedTime;
-        }
-        else
-        {
-            //如果沒有在攻擊動畫中，則返回0
-            return 0f;
-        }
-        // normalizedTime 是動畫播放的進度值（0-1之間）：
-        // 0 = 動畫開始
-        // 0.5 = 動畫播放一半
-        // 1 = 動畫結束
-        //previousFrameTime 儲存上一幀的動畫進度
-        // rame 1: normalizedTime = 0.1, previousFrameTime = 0
-        // Frame 2: normalizedTime = 0.2, previousFrameTime = 0.1
-        // Frame 3: normalizedTime = 0.3, previousFrameTime = 0.2
-    }
-
-
+    
 }
