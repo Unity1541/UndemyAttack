@@ -12,6 +12,7 @@ public class EnemyAttackState : EnemyBaseState
     {
     }
 
+<<<<<<< Updated upstream
    public override void OnEnter()
    {
       enemyStateMachine.weaponDamage.SetAttack(enemyStateMachine.attackDamage,enemyStateMachine.knockBack); // 設定攻擊傷害
@@ -32,6 +33,16 @@ public class EnemyAttackState : EnemyBaseState
     
     Debug.Log("在攻擊狀態");
          
+=======
+    public override void OnEnter()
+    {
+       enemyStateMachine.weaponDamage.SetAttack(enemyStateMachine.attackDamage); // 設定攻擊傷害
+       enemyStateMachine.enemyAnimator.CrossFadeInFixedTime(enemyAttack,fadeDuration);
+    }
+    
+    public override void Tick(float deltaTime)
+    {
+>>>>>>> Stashed changes
     }
 
     public override void OnExit()

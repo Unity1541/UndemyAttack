@@ -5,11 +5,15 @@ using UnityEngine;
 public class WeaponDamage : MonoBehaviour
 {
 
+<<<<<<< Updated upstream
     [SerializeField]
     private Health playerHealth;
     private int damage;
     private float knockBack;
     [SerializeField]private Collider myCollider;
+=======
+    private int damage;
+>>>>>>> Stashed changes
     //避免打到敵人一次，會觸發多次collier
     public List<Collider> hitedColliders = new List<Collider>();
 
@@ -20,6 +24,7 @@ public class WeaponDamage : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+<<<<<<< Updated upstream
         // 1. 先檢查是否已經擊中過
         if (hitedColliders.Contains(other))
         {
@@ -54,6 +59,22 @@ public class WeaponDamage : MonoBehaviour
                 Vector3 direction = (other.transform.position - myCollider.transform.position).normalized;
                 forceReceiver.AddForce(direction * knockBack);
             }
+=======
+        if (other.CompareTag("Player")) { return; } // 忽略與自身碰撞器的碰撞
+
+        //if (hitedColliders.Contains(other)) { return; } // 如果已經擊中過這個碰撞器，則忽略
+
+        if (other.CompareTag("Enemy"))
+            hitedColliders.Add(other); // 將碰撞器添加到已擊中列表中
+        // 檢查碰撞的物件是否有 Health 組件
+
+        if (other.TryGetComponent<Health>(out Health health))
+        {
+            // 如果有，則對其造成傷害
+            health.DealDamage(damage); // 假設每次攻擊造成10點傷害
+            Debug.Log($"Damaged {other.name}, remaining health: {health}");
+
+>>>>>>> Stashed changes
         }
     }
 
@@ -64,9 +85,16 @@ public class WeaponDamage : MonoBehaviour
     }
 
 
+<<<<<<< Updated upstream
     public void SetAttack(int damage,float knockBack)
     { 
         this.damage = damage; // 設定攻擊傷害
         this.knockBack = knockBack; // 設定擊退力
+=======
+    public void SetAttack(int damage)
+    { 
+        this.damage = damage; // 設定攻擊傷害
+        
+>>>>>>> Stashed changes
     }
 }

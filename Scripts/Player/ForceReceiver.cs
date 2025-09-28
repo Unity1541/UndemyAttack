@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< Updated upstream
 using UnityEngine.AI;
+=======
+>>>>>>> Stashed changes
 
 public class ForceReceiver : MonoBehaviour
 {
@@ -10,7 +13,10 @@ public class ForceReceiver : MonoBehaviour
     private float verticalVelocity;
 
     [SerializeField] private CharacterController characterController;
+<<<<<<< Updated upstream
     [SerializeField] private NavMeshAgent navMeshAgent;
+=======
+>>>>>>> Stashed changes
     [SerializeField] private float dragSpeed = 0.2f;
     public Vector3 movementWithForce => impact + Vector3.up * verticalVelocity;
     //這個屬性用來獲取垂直方向的移動速度，這樣可以在其他地方使用
@@ -31,10 +37,13 @@ public class ForceReceiver : MonoBehaviour
 
 
         impact = Vector3.SmoothDamp(impact, Vector3.zero, ref dampVelocity, dragSpeed);
+<<<<<<< Updated upstream
         if(impact == Vector3.zero && navMeshAgent != null) //如果impact為0，則啟用navMeshAgent
         {
             navMeshAgent.enabled = true;
         }
+=======
+>>>>>>> Stashed changes
 
     }
 
@@ -43,10 +52,14 @@ public class ForceReceiver : MonoBehaviour
         //這個方法用來添加一個力到角色身上
         //這樣就可以在其他地方使用
         impact += force;
+<<<<<<< Updated upstream
         if(navMeshAgent != null)//因為只有敵人才有navMeshAgent
         {
             navMeshAgent.enabled = false;
         }
+=======
+        // Debug.Log("添加的力: " + force + "，當前impact: " + impact);
+>>>>>>> Stashed changes
     }
     
 

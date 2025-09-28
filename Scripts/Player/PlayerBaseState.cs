@@ -47,6 +47,7 @@ public abstract class PlayerBaseState : State
         }
 
     }
+<<<<<<< Updated upstream
 
     protected void ReturnLocomotion()
     {
@@ -60,4 +61,6 @@ public abstract class PlayerBaseState : State
             stateMachine.SwitchState(new PlayerFreeLookState(stateMachine));
         }
     }
+=======
+>>>>>>> Stashed changes
 }
