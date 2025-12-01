@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55bbdfaaa491d0a43bd2204eb69047d1, type: 3}
+  m_Name: CH01
+  m_EditorClassIdentifier: 
+  id: 
+  displayName: serr
+  description: 
+  portraitSmallSprite: {fileID: 387499205, guid: a7fb016f55a7b414eab841e02622c348,
+    type: 3}
+  portraitLargeSprite: {fileID: 0}
+  characterModel: {fileID: 4418172402143050964, guid: be73f3072870a364bab3af8ec4861ba2,
+    type: 3}
+  hp: 0
+  atk: 0
+  def: 0
